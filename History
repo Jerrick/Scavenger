@@ -1,0 +1,15 @@
+----------------------------------------------------------------------
+v0.1 : Python 抓取Html，判断时间，超时执行系统命令Kill Job,然后邮件出来
+page 1: job_id,Map Total, Map Completed, Reduce Total,Reduce Completed
+page 2: Submit Host,Submit Host Address, Started at,Running for,runtime
+page 3: hive.query.string
+----------------------------------------------------------------------
+2013.03:
+    python抓取页面,正则匹配出所需信息(job_id,mappers,reduces | Submit Host,Submit Host Address, Started at,Running for,runtime|)
+
+2013.03~2013.10:
+    none
+
+2013.11:
+    弃用正则匹配，使用BeautifulSoup解析html
+    使用Git管理版本
