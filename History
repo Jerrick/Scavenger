@@ -13,3 +13,5 @@ page 3: hive.query.string
 2013.11:
     弃用正则匹配，使用BeautifulSoup解析html
     使用Git管理版本
+2013.12
+    BS4不适用所有场景，保持正则+BS共用
