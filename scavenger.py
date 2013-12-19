@@ -26,6 +26,54 @@ class job_record():
         self.start_time = ""
         self.runing_time = ""
         self.hive_sql = ""
+    
+    def pageOneParse(self):
+        '''page 1 的解析是全局式，不单独解析'''
+        pass
+
+    def pageTwoParse(self):
+        '''page 2的解析'''
+        job_detail_html = get_jobs_html('job_detail',self.job_id)
+        job_detail = getList(u"<\/b>(.*?)<br>", str(job_detail_html).strip() )
+        if len(job_detail) == 11:
+            user, name, jf, sm_host, sm_address, no_1, no_2, status, start_time, run_time, jb_clean = job_detail 
+            self.job_name = name
+            self.submit_host = sm_host
+            self.submit_address = sm_address
+            self.start_time = start_time
+            self.running_time = run_time
+        elif len(job_detail) == 10:
+            user, jf, sm_host, sm_address, no_1, no_2, status, start_time, run_time, jb_clean = job_detail 
+            self.job_name = self.job_id
+            self.submit_host = sm_host
+            self.submit_address = sm_address
+            self.start_time = start_time
+            self.running_time = run_time
+        else:
+            print "len != 11"
+            print "error : %s " % str(job_detail)
+
+    def pageThreeParse(self):
+        '''page 3的解析'''
+        job_conf_html = get_jobs_html('job_conf',self.job_id)
+        sql_info = getList(u"hive.query.string.*<td.*>([\s\S]+)\s</td>", str(job_conf_html))
+        if len(sql_info):
+            self.hive_sql = sql_info[0].replace('\n','')
+        else:
+            sql_info = getList(u"hive.query.string.*<td.*>([\s\S]+)</td>[\s\S]+<td width=\"35%\"><b>mapred.working.dir", str(job_conf_html))
+            if len(sql_info):
+                self.hive_sql = sql_info[0].replace('\n','')
+            else:
+                self.hive_sql = "no hive sql"
+                #print job_conf_html
+                #print sql_info
+
+    def printValues(self):
+        print "++++++++++++ begin ++++++++++++++"
+        print "job_id=%s" % self.job_id
+        print "job_name=%s" % self.job_name
+        print "job_sql=%s" % self.hive_sql
+        print "++++++++++++ end ++++++++++++++"
 
     def killJob(self):
         '''刽子手'''
@@ -102,37 +150,14 @@ def main():
 
     #enter into page 2
     for job_id in jobs:
-        job_detail_html = get_jobs_html('job_detail',job_id)
-        #print job_detail_html
-        job_detail = getList(u"<\/b>(.*?)<br>", str(job_detail_html).strip() )
-        #print  job_detail
-        if len(job_detail) == 11:
-            user, name, jf, sm_host, sm_address, no_1, no_2, status, start_time, run_time, jb_clean = job_detail 
-            jobs[job_id].job_name = name
-            jobs[job_id].submit_host = sm_host
-            jobs[job_id].submit_address = sm_address
-            jobs[job_id].start_time = start_time
-            jobs[job_id].running_time = run_time
-        elif len(job_detail) == 10:
-            user, jf, sm_host, sm_address, no_1, no_2, status, start_time, run_time, jb_clean = job_detail 
-            jobs[job_id].job_name = job_id
-            jobs[job_id].submit_host = sm_host
-            jobs[job_id].submit_address = sm_address
-            jobs[job_id].start_time = start_time
-            jobs[job_id].running_time = run_time
-        else:
-            print "len != 11"
-            print "error : %s " % str(job_detail)
-            continue
-    
+        jobs[job_id].pageTwoParse()
     #enter into page 3
     for job_id in jobs:
-        job_conf_html = get_jobs_html('job_conf',job_id)
-        sql_info = getList(u"hive.query.string.*<td.*>([\s\S]+)\s</td>", str(job_conf_html))
-        if len(sql_info):
-            print job_id
-            print sql_info[0].replace('\n','')
+        jobs[job_id].pageThreeParse()
 
+    for ajob in jobs:
+        jobs[ajob].printValues()
+        
 if __name__ == '__main__':
     main()
 
