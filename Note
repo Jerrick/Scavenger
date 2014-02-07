@@ -1,0 +1,10 @@
+学习笔记：
+1. Beautiful Soup : python 解析html
+
+2. pdb : python调试
+    一般用法：
+    import pdb
+    pdb.set_trace()
+    #n下一步, 其他同python一样
+
+3. git : 分布式版本管理

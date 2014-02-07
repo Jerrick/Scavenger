@@ -16,4 +16,8 @@ page 3: hive.query.string
 2013.12
     BS4不适用所有场景，保持正则+BS共用
     
-    2012.12.26:基础骨架打通, next=>MAXTIME,MAXMAP,地址写到conf中
+    2013.12.26:基础骨架打通, next=>MAXTIME,MAXMAP,地址写到conf中
+2014.01
+    2014.01.04:加入配置文件和配置文件读取函数 next=>邮件函数
+    2014.01.10:大改造，从过程+对象=>scavenger+job对象
+    2014.01.15:对象化完成, 继续重构
