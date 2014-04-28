@@ -10,6 +10,37 @@ https://github.com/Jerrick/Scavenger/wiki/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D&%
     
     Hadoop 集群中会运行很多个Job, Job可能来源于MR脚本、Hive SQL 、Pig 脚本等, 最初公司的集群没有管理Job, 有些mapper数过大的Job会抢占所有的资源，造成其他Job进程的阻塞。而最初都是看JobTracker(50030)时发现再人工kill, 非常不够智能。所以就有了本项目的设想，监控JobTracker上的job，发现超过设定好的最大Mapper数或最长时间则kill 掉，然后邮件报告出来。
 
+
+#层级目录:
+
+
+    |____common 
+    | |______init__.py
+    | |______init__.pyc
+    | |____commom.py
+    | |____commom.pyc
+    | |____jobutil.py
+    | |____jobutil.pyc
+    | |____mailman.py
+    | |____mailman.pyc
+    | |____mailutil.py
+    | |____mailutil.pyc
+    | |____toolutil.py
+    | |____toolutil.pyc
+    |____config
+    | |____commom.conf
+    | |____db.conf
+    | |____job.conf
+    | |____mail.conf
+    |____env.sh
+    |____History
+    |____Note
+    |____README.md
+    |____requirements.txt
+    |____scavenger.py`
+
+
+
 #其他：
 
 
