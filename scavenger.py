@@ -12,6 +12,7 @@ import os
 from common.toolutil import getList, getJobsHtml, parseRunningTime
 from common.jobutil import get_max_running_time, get_max_map_num
 from common.mailman import sendEmailByDefault
+from common.commom import get_master_ip, get_jump_to_kill_job 
 import pdb
 
 class Job():
@@ -53,11 +54,13 @@ class Scavenger():
     def __init__(self):
         '''清道夫born'''
         self.job_list = {}
-        self.job_query = "http://hd00:50030/jobtracker.jsp"
-        self.job_detail_query = "http://hd00:50030/jobdetails.jsp?jobid="
-        self.job_conf_query = "http://hd00:50030/jobconf.jsp?jobid="
+        self.master_ip = get_master_ip()
+        self.job_query = "http://%s:50030/jobtracker.jsp" % self.master_ip
+        self.job_detail_query = "http://%s:50030/jobdetails.jsp?jobid=" % self.master_ip
+        self.job_conf_query = "http://%s:50030/jobconf.jsp?jobid=" % self.master_ip
         self.max_map_num = get_max_map_num()
         self.max_running_time = get_max_running_time()
+        self.jump_to_kill = get_jump_to_kill_job()
         self.kill_list = set()
         self.mail_title = "scavenger邮件报告"
         self.mail_text = "被杀掉的Job&其信息"
@@ -144,8 +147,7 @@ class Scavenger():
     def kill_jobs(self):
         '''杀掉Jobs'''
         if len(self.kill_list) > 0:
-            #sys_cmd = "hadoop job -kill %s" % " ".join(self.kill_list)
-            sys_cmd = "ssh jiankuiwang@sys11  ssh work@dm02 hadoop job -kill %s" % " ".join(self.kill_list)
+            sys_cmd = "%s hadoop job -kill %s" % ( self.jump_to_kill, " ".join(self.kill_list) )
             print sys_cmd
             os.system(sys_cmd)
         else:

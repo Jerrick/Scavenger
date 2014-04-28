@@ -21,3 +21,8 @@ page 3: hive.query.string
     2014.01.04:加入配置文件和配置文件读取函数 next=>邮件函数
     2014.01.10:大改造，从过程+对象=>scavenger+job对象
     2014.01.15:对象化完成, 继续重构
+2014.04
+    优化点:
+    1. scavenger.py #56,57,58 三行的地址一定要修改成本公司的地址，如：hd00:50030
+    2. scavenger.py #148行 的sys_cmd修改成适合本公司和机器的命令，如：sys_cmd = "hadoop job -kill %s" % " ".join(self.kill_list)
+    3. 封装. env 和scavenger.py 到bin

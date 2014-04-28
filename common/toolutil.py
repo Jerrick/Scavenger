@@ -50,6 +50,9 @@ def parseRunningTime(running_time):
         if len(running_time.split(',')) == 2:
             times = getList(u"([\d]+)mins[\D]+([\d]+)sec", str(running_time).strip() )
             running_time_int =  int( times[0][0] ) * 60 + int(times[0][1])
+        elif len(running_time.split(',')) == 3:
+            times = getList(u"([\d]+)hrs[\D]+([\d]+)mins[\D]+([\d]+)sec", str(running_time).strip() )
+            running_time_int =  int( times[0][0] ) * 60 * 60 + int(times[0][1]) * 60 + int(times[0][2])
         elif len(running_time.split(',')) == 1:
             times = getList(u"([\d]+)sec", str(running_time).strip() )
             running_time =  int( times[0][0] )
