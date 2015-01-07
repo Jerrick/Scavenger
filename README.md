@@ -1,5 +1,7 @@
 #Scavenger
 
+#for Hadoop 0.* & 1.*
+
 #项目介绍&使用说明文档（中文）：
 
 https://github.com/Jerrick/Scavenger/wiki/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D&%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%EF%BC%88%E4%B8%AD%E6%96%87%EF%BC%89
